@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     fun searchButtonPushed(view: View){
         result_label.text = ""
 
-        if(first_number.text.isNotEmpty() && second_number.text.isNotEmpty())
+        if(first_number.text.isNotEmpty() && second_number.text.isNotEmpty()){
             val a = first_number.text.toString()
             val b = second_number.text.toString()
 
