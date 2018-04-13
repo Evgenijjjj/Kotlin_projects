@@ -33,6 +33,7 @@ class ExampleInstrumentedTest {
         var j = 0
         while (i < 101){
             onView(withId(R.id.inputField1)).perform(clearText(),typeText("${i}"), closeSoftKeyboard())
+            j=0
            while (j < 101) {
                onView(withId(R.id.inputField2)).perform(clearText(), typeText("${j}"), closeSoftKeyboard())
                onView(withId(R.id.plusBtn)).perform(click())
