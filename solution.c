@@ -70,40 +70,37 @@ void listDir(char *startDir, catalog_of_letters** catalog, int* count){
     closedir(dir);
     
 }
-void printWordDir(catalog_of_letters** catalog, char* word, int index, int count){
+void printWordDir(catalog_of_letters** catalog, char* word, int index, int count,FILE *f){
     if(index > strlen(word)-1)
         return;
     catalog_of_letters** ptr;
     ptr = bsearch(&word[index], catalog, count, sizeof(struct catalog_of_letters*),bsearch_cmp);
-    if(ptr)
-        printf("%s\n",(*ptr)->path);
-    printWordDir(catalog, word, index+1,count);
+    if(ptr){
+        fputs((*ptr)->path,f);
+        fputs("\n", f);
+    }
+    
+    printWordDir(catalog, word, index+1,count,f);
 }
 
 
 int main(){
+    FILE *f = fopen("result.txt","w");
     int count=0;char word[100];
     fgets(word,100,stdin);
     word[strlen(word)-1]='\0';
-    //printf("%s\n", word);
     
     catalog_of_letters** catalog = (catalog_of_letters**)malloc(66*sizeof(catalog_of_letters*));
-    for(int i =0;i<66;i++){
+    int i;
+    for(i =0;i<66;i++){
         catalog[i] = calloc(1,sizeof(catalog));
         
     }
     
-    //redStr(catalog);
-    listDir("/Users/admin/Desktop/stepic", catalog, &count);
-    //printStruc(catalog,count);
+    listDir("./tmp", catalog, &count);
     qsort(catalog,count,sizeof(catalog_of_letters*),cmp);
-    //printf("---------------------\n\n\n");
-    //printStruc(catalog,count);
-    //printf("---------------------\n\n\n");
-    printWordDir(catalog, word,0,count);
-   /* char p = 'a';
-    catalog_of_letters** ptr= bsearch(&p, catalog, count, sizeof(struct catalog_of_letters*),bsearch_cmp);
-   printf("[%s]\n",(*ptr)->path);*/
+    printWordDir(catalog, word,0,count,f);
+    fclose(f);
     
 
     return 0;
